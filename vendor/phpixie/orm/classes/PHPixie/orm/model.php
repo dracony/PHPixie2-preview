@@ -143,7 +143,7 @@ class Model
 		$this->conn = $pixie->db->get($this->connection);
 		$this->query = $this->conn->query('select');
 		$this->model_name = strtolower(get_class($this));
-		$this->model_name = str_ireplace($this->pixie->app_namespace."\\Model\\", '', $this->model_name);
+		$this->model_name = str_ireplace($this->pixie->app_namespace."Model\\", '', $this->model_name);
 		
 		if ($this->table == null)
 		{

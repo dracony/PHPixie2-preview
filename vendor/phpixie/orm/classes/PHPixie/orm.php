@@ -34,7 +34,7 @@ class ORM {
 	 */
 	public function get($name, $id = null)
 	{
-		$model = $this->pixie->app_namespace."\\Model\\".$name;
+		$model = $this->pixie->app_namespace."Model\\".$name;
 		$model = new $model($this->pixie);
 		if ($id != null)
 		{

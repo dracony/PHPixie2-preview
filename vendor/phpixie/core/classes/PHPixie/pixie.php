@@ -66,24 +66,6 @@ namespace PHPixie;
 	public $basepath = '/';
 	
 	/**
-	 * Initializes the pixie
-	 *
-	 * @param  string $root_dir Root directory of the app
-	 */
-	public function __construct($root_dir) {
-		if (substr($root_dir, -1) != '/')
-			$root_dir.= '/';
-			
-		$this->root_dir = $root_dir;
-		
-		if ($this->app_namespace === null) {
-			$class_name = get_class($this);
-			$this->app_namespace = substr($class_name, 0, strpos($class_name, '\\'));
-		}
-			
-	}
-		
-	/**
 	 * Gets a property by name. Returns defined class and module instances
 	 *
 	 * @param string $name Property namw
@@ -225,10 +207,19 @@ namespace PHPixie;
 	/**
 	 * Bootstraps the project
 	 *
+	 * @param  string $root_dir Root directory of the application
 	 * @return void
 	 */
-	public function bootstrap() {
+	public function bootstrap($root_dir) {
+		if (substr($root_dir, -1) != '/')
+			$root_dir.= '/';
+			
+		$this->root_dir = $root_dir;
 		
+		if ($this->app_namespace === null) {
+			$class_name = get_class($this);
+			$this->app_namespace = substr($class_name, 0, strpos($class_name, "\\")+1);
+		}
 		$this->assets_dirs[] = dirname(dirname(dirname(__FILE__))).'/assets/';
 		$this->debug->init();
 		foreach($this->modules as $name=>$class) {

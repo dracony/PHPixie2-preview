@@ -67,7 +67,6 @@ class Router {
 	 * @throws \Exception If no route matches the URI
 	 * @throws \Exception If route matched but no Controller was defined for it
 	 * @throws \Exception If route matched but no action was defined for it
-	 * @static
 	 */
 	public function match($uri)
 	{
@@ -87,12 +86,12 @@ class Router {
 			{
 				$pattern = is_array($rule) ? $rule[0] : $rule;
 				$pattern = str_replace(')', ')?', $pattern);
-
-				$pattern = preg_replace_callback('/<.*?>/', function($str) use ($rule) {
+				$pixie=$this->pixie;
+				$pattern = preg_replace_callback('/<.*?>/', function($str) use ($rule, $pixie) {
 						$str = $str[0];
 						$regexp = '[a-zA-Z0-9\-\._]+';
 						if (is_array($rule))
-							$regexp = $this->pixie->arr($rule[1], str_replace(array('<', '>'), '', $str), $regexp);
+							$regexp = $pixie->arr($rule[1], str_replace(array('<', '>'), '', $str), $regexp);
 						return '(?P'.$str.$regexp.')';
 					}, $pattern);
 
