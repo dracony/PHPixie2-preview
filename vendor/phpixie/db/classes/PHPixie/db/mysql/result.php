@@ -6,7 +6,7 @@ namespace PHPixie\DB\Mysql;
  * Database result implementation for Mysqli
  * @package Database
  */
-class Result extends PHPixie\DB\Result
+class Result extends \PHPixie\DB\Result
 {
 
 	/**
@@ -31,7 +31,7 @@ class Result extends PHPixie\DB\Result
 	{
 		if ($this->_position > 0)
 		{
-			throw new Exception('Mysqli result cannot be rewound for unbuffered queries.');
+			throw new \Exception('Mysqli result cannot be rewound for unbuffered queries.');
 		}
 	}
 

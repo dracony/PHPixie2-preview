@@ -378,9 +378,9 @@ abstract class Query
 			return array('logic' => 'and', 'conditions' => $conds);
 		}
 
-		if ((is_string($p[0]) || get_class($p[0]) == 'Expression_Database') && isset($p[1]))
+		if ((is_string($p[0]) || $p[0] instanceof \PHPixie\DB\Expression) && isset($p[1]))
 		{
-			if (strpos($p[0], '.') === false)
+			if (is_string($p[0]) && strpos($p[0], '.') === false)
 			{
 				$p[0] = $this->last_alias().'.'.$p[0];
 			}

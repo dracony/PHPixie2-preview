@@ -31,7 +31,7 @@ class Result extends \PHPixie\DB\Result
 	{
 		if ($this->_position > 0)
 		{
-			throw new Exception('PDO statement cannot be rewound for unbuffered queries');
+			throw new \Exception('PDO statement cannot be rewound for unbuffered queries');
 		}
 	}
 

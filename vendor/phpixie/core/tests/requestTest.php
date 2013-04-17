@@ -1,17 +1,13 @@
 <?php
 namespace Controller {
-	require_once(CLASSDIR.'/controller.php');
-	require_once(CLASSDIR.'/response.php');
+
 	class TestController extends \PHPixie\Controller {
 		public function action_index(){}
 	}
 }
 
 namespace {
-	require_once(CLASSDIR.'/router.php');
-	require_once(CLASSDIR.'/route.php');
-	require_once(CLASSDIR.'/pixie.php');
-	require_once(CLASSDIR.'/request.php');
+
 
 
 	/**

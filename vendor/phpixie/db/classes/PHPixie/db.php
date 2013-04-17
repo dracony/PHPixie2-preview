@@ -61,11 +61,23 @@ class DB {
 	 *                        Defaults to  'default'.
 	 * @return mixed Id of the last inserted row
 	 */
-	public static function insert_id($config = 'default')
+	public function insert_id($config = 'default')
 	{
 		return $this->get($config)->insert_id();
 	}
-
+	
+	/**
+	 * Gets column names for the specified table
+	 *
+	 * @param string $table Name of the table to get columns from
+	 * @param string  $config Configuration name of the connection.
+	 *                        Defaults to  'default'.
+	 * @return array Array of column names
+	 */
+	public function list_columns($table, $config = 'default') {
+		return $this->get($config)->list_columns($table);
+	}
+	
 	/**
 	 * Returns an Expression representation of the value.
 	 * Values wrapped inside Expression are not escaped in queries
@@ -91,7 +103,7 @@ class DB {
 	}
 	
 	/*
-	 * Creates a new query
+	 * Creates a new result
 	 *
 	 * @param string $driver Database driver name
 	 * @param object $cursor Datbase result cursor

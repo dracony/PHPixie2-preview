@@ -27,7 +27,7 @@ class Query extends \PHPixie\DB\Query
 	 * @param DB $db   Database connection
 	 * @param string $type Query type. Available types: select, update, insert, delete, count
 	 * @return void
-	 * @see Query_Database::__construct()
+	 * @see \PHPixie\DB\Query::__construct()
 	 */
 	public function __construct($db, $type)
 	{
@@ -49,16 +49,16 @@ class Query extends \PHPixie\DB\Query
 
 	/**
 	 * If a string is passed escapes a field by enclosing it in specified quotes.
-	 * If you pass an Expression_Database object the value will be inserted into the query unescaped
+	 * If you pass an \PHPixie\DB\Expression object the value will be inserted into the query unescaped
 	 *
-	 * @param mixed $field     Field to be escaped or an Expression_Database object
+	 * @param mixed $field     Field to be escaped or an \PHPixie\DB\Expression object
 	 *                         if the field must not be escaped
 	 * @return string  Escaped field representation
-	 * @see Expression_Database
+	 * @see \PHPixie\DB\Expression
 	 */
 	public function escape_field($field)
 	{
-		if (is_object($field) && get_class($field) == 'Expression_Database')
+		if (is_object($field) && $field instanceof \PHPixie\DB\Expression)
 		{
 			return $field->value;
 		}
@@ -77,19 +77,19 @@ class Query extends \PHPixie\DB\Query
 
 	/**
 	 * Replaces the value with ? and appends it to the parameters array
-	 * If you pass an Expression_Database object the value will be inserted into the query unescaped
-	 * @param mixed $val     Value to be escaped or an Expression_Database object
+	 * If you pass an \PHPixie\DB\Expression object the value will be inserted into the query unescaped
+	 * @param mixed $val     Value to be escaped or an \PHPixie\DB\Expression object
 	 *                       if the value must not be escaped
 	 * @param array  &$params Reference to parameters array
 	 * @return string  Escaped value representation
 	 */
 	public function escape_value($val, &$params)
 	{
-		if ($val instanceof Expression_Database)
+		if ($val instanceof \PHPixie\DB\Expression)
 		{
 			return $val->value;
 		}
-		if ($val instanceof Query_Database)
+		if ($val instanceof \PHPixie\DB\Query)
 		{
 			return $this->subquery($val, $params);
 		}
@@ -100,7 +100,7 @@ class Query extends \PHPixie\DB\Query
 	/**
 	 * Gets the SQL for a subquery and appends its parameters to current ones
 	 *
-	 * @param Query_Database $query Query builder for the subquery
+	 * @param \PHPixie\DB\Query $query Query builder for the subquery
 	 * @param array  &$params Reference to parameters array
 	 * @return string  Subquery SQL
 	 */
@@ -114,7 +114,7 @@ class Query extends \PHPixie\DB\Query
 	/**
 	 * Gets the SQL for a table to select from
 	 *
-	 * @param string|Expression_Database|Query_Database|array $table Table representation
+	 * @param string|\PHPixie\DB\Expression|\PHPixie\DB\Query|array $table Table representation
 	 * @param array  &$params Reference to parameters array
 	 * @param string &alias   Alias for this table
 	 * @return string  Table SQL
@@ -139,13 +139,13 @@ class Query extends \PHPixie\DB\Query
 		if ($alias == null)
 			$alias = $this->last_alias();
 
-		if ($table instanceof Query_Database)
+		if ($table instanceof \PHPixie\DB\Query)
 			return "{$this->subquery($table, $params)} AS {$alias}";
 
-		if ($table instanceof Expression_Database)
+		if ($table instanceof \PHPixie\DB\Expression)
 			return "({$table->value}) AS {$alias}";
 
-		throw new Exception("Parameter type {get_class($table)} cannot be used as a table");
+		throw new \Exception("Parameter type {get_class($table)} cannot be used as a table");
 	}
 
 	/**
@@ -237,7 +237,7 @@ class Query extends \PHPixie\DB\Query
 				{
 					if (!empty($this->_joins))
 					{
-						throw new Exception("SQLite doesn't support deleting a table with JOIN in the query");
+						throw new \Exception("SQLite doesn't support deleting a table with JOIN in the query");
 					}
 					$query .= "DELETE FROM {$this->quote($this->_table)} ";
 				}
@@ -310,17 +310,17 @@ class Query extends \PHPixie\DB\Query
 				foreach ($this->_union as $union)
 				{
 					$query .= $union[1] ? "UNION ALL " : "UNION ";
-					if (is_subclass_of($union[0], 'Query_Database'))
+					if ($union[0] instanceof \PHPixie\DB\Query)
 					{
 						$query .= $this->subquery($union[0], $params);
 					}
-					elseif (is_subclass_of($union[0], 'Expression_Database'))
+					elseif ($union[0] instanceof \PHPixie\DB\Expression)
 					{
 						$query .= "({$union[0]->value}) ";
 					}
 					else
 					{
-						throw new Exception("You can only use query builder instances or \$pixie->db->expr() for unions");
+						throw new \Exception("You can only use query builder instances or \$pixie->db->expr() for unions");
 					}
 				}
 			}
@@ -387,7 +387,7 @@ class Query extends \PHPixie\DB\Query
 		}
 		return $conds;
 
-		throw new Exception("Cannot parse condition:\n".var_export($p, true));
+		throw new \Exception("Cannot parse condition:\n".var_export($p, true));
 	}
 
 }

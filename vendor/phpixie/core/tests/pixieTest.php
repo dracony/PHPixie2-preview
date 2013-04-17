@@ -1,14 +1,6 @@
 <?php
 namespace PixieTest {
-require_once(CLASSDIR.'/pixie.php');
-require_once(CLASSDIR.'/debug.php');
-require_once(CLASSDIR.'/router.php');
-require_once(CLASSDIR.'/route.php');
-require_once(CLASSDIR.'/config.php');
-require_once(CLASSDIR.'/request.php');
-require_once(CLASSDIR.'/response.php');
-require_once(CLASSDIR.'/view.php');
-require_once(CLASSDIR.'/controller.php');
+	require_once(ROOT.'/vendor/phpixie/core/classes/PHPixie/pixie.php');
 	class Pixie extends \PHPixie\Pixie { 
 		public $basepath = '/tester/';
 		protected $modules = array(

@@ -46,7 +46,7 @@ class Connection extends \PHPixie\DB\Connection
 	 *
 	 * @param string $table Name of the table to get columns from
 	 * @return array Array of column names
-	 * @throw Exception if table doesn't exist
+	 * @throw \Exception if table doesn't exist
 	 */
 	public function list_columns($table)
 	{
@@ -54,7 +54,7 @@ class Connection extends \PHPixie\DB\Connection
 		$table_desc = $this->execute("DESCRIBE `$table`");
 		if (!$table_desc->valid())
 		{
-			throw new Exception("Table '{$table}' doesn't exist");
+			throw new \Exception("Table '{$table}' doesn't exist");
 		}
 		foreach ($table_desc as $column)
 		{
@@ -73,7 +73,7 @@ class Connection extends \PHPixie\DB\Connection
 	 */
 	public function query($type)
 	{
-		return return $this->query_driver('mysql', $this, $type);
+		return $this->query_driver('mysql', $this, $type);
 	}
 
 	/**
