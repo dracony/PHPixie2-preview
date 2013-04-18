@@ -53,7 +53,7 @@ class ORM {
 	 * @param array           $with Array of rules for preloaded relationships
 	 */
 	public function result($model, $dbresult, $with = array()) {
-		return new \PHPixie\ORM\Result($this->pixie, $model, $dbresult, $with = array());
+		return new \PHPixie\ORM\Result($this->pixie, $model, $dbresult, $with);
 	}
 	
 }

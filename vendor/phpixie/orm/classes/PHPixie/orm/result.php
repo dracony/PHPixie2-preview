@@ -184,7 +184,7 @@ class Result implements \Iterator
 		$model = $model = $this->pixie->orm->get($this->_model);
 		foreach ($this->_dbresult as $data)
 		{
-			$row = new stdClass;
+			$row = new \stdClass;
 			$data = (array) $data;
 			foreach ($model->columns() as $column)
 			{
@@ -193,7 +193,7 @@ class Result implements \Iterator
 
 			foreach ($this->_with as $rel)
 			{
-				$rel_data = new StdClass;
+				$rel_data = new \StdClass;
 				foreach ($rel['columns'] as $column)
 				{
 					$rel_data->$column = array_shift($data);

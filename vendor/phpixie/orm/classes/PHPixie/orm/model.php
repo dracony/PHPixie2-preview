@@ -359,13 +359,32 @@ class Model
 	}
 
 	/**
+	 * Magic method that allows to chech if the propert exists on the model.
+	 * Takes relationships and properties defined using get() into account.
+	 * @param string   $column Name of the column, property or relationship to get
+	 * @return boolean If the property exists
+	 */
+	public function __isset($property) {
+		if (array_key_exists($property, $this->_row))
+			return true;
+		if (array_key_exists($property, $this->cached))
+			return true;
+		if (($val = $this->get($property)) !== null)
+			return true;
+		$relations = array_merge($this->has_one, $this->has_many, $this->belongs_to);
+		if ($target = $this->pixie->arr($relations, $property, false))
+			return true;
+		return false;		
+	}
+	
+	/**
 	 * Magic method that allows accessing row columns as properties and also facilitates
 	 * access to relationships and custom properties defined in get() method.
 	 * If a relationship is being accessed, it will return an ORM model of the related table
 	 * and automatically alter its query so that all your previously set conditions will remain
 
 	 * @param string   $column Name of the column, property or relationship to get
-	 * @return mixed
+	 * @return mixed   Requested property
 	 * @throws \Exception If neither property nor a relationship with such name is found
 	 */
 	public function __get($column)
@@ -605,7 +624,7 @@ class Model
 	 */
 	public function columns()
 	{
-		$cache = &$this->orm->column_cache;
+		$cache = &$this->pixie->orm->column_cache;
 		
 		if (!isset($cache[$this->table]))
 			$cache[$this->table] = $this->conn->list_columns($this->table);
