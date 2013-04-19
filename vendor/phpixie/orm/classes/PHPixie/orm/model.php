@@ -133,9 +133,9 @@ class Model
 	 * changed by overriding $table, $id and $db properties.
 	 *
 	 * @return void
-	 * @ see $table
-	 * @ see $id
-	 * @ see $db
+	 * @see $table
+	 * @see $id
+	 * @see $db
 	 */
 	public function __construct($pixie)
 	{
